@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 const list = [
@@ -21,20 +21,54 @@ const list = [
  ];
 
 function App() {
+  const [techStack, setTechStack] = useState(list)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  function onDismiss(id) {
+    const isNotId = item => item.objectID !== id
+    const updatedTechStack = techStack.filter(isNotId)
+    setTechStack(updatedTechStack)
+  }
+
+  function onSearchChange(event) {
+    setSearchTerm(event.target.value)
+  }
+
+  function isSearched(searchTerm) {
+    return function (item) {
+      return item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    }
+  }
+
   return (
     <div className="App">
-      {list.map(item =>
+      <form>
+        <input
+          type="text"
+          onChange={onSearchChange}
+        />
+      </form>
+
+      {techStack.filter(isSearched(searchTerm)).map(item =>
         <div key={item.objectID}>
           <span>
-            <a href={item.title}>{item.title}</a>
+            <a href={item.url}>{item.title}</a>
           </span>
           <span>{item.author}</span>
           <span>{item.num_comments}</span>
           <span>{item.points}</span>
+          <span>
+            <button
+              onClick={() => onDismiss(item.objectID)}
+              type="button"
+            >
+              Dismiss
+            </button>
+          </span>
         </div>
       )}
     </div>
   )
 }
 
-export default App;
+export default App
