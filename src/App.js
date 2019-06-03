@@ -42,12 +42,13 @@ function App() {
 
   return (
     <div className="App">
-      <form>
-        <input
-          type="text"
-          onChange={onSearchChange}
-        />
-      </form>
+      <Search
+        value={searchTerm}
+        onChange={onSearchChange}
+      />
+
+      <Table
+      />
 
       {techStack.filter(isSearched(searchTerm)).map(item =>
         <div key={item.objectID}>
@@ -68,6 +69,19 @@ function App() {
         </div>
       )}
     </div>
+  )
+}
+
+function Search(props){
+  // const {value, onChange} = props
+  return(
+    <form>
+      <input
+        type="text"
+        value={props.value}
+        onChange={props.onChange}
+      />
+    </form>
   )
 }
 
