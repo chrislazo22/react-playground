@@ -48,9 +48,35 @@ function App() {
       />
 
       <Table
+        list={techStack}
+        pattern={searchTerm}
+        onDismiss={onDismiss}
+        isSearched={isSearched}
       />
+    </div>
+  )
+}
 
-      {techStack.filter(isSearched(searchTerm)).map(item =>
+function Search(props){
+  const {value, onChange} = props
+
+  return(
+    <form>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+      />
+    </form>
+  )
+}
+
+function Table(props) {
+  const {list, pattern, onDismiss, isSearched} = props
+
+  return(
+    <div>
+      {list.filter(isSearched(pattern)).map(item =>
         <div key={item.objectID}>
           <span>
             <a href={item.url}>{item.title}</a>
@@ -69,19 +95,6 @@ function App() {
         </div>
       )}
     </div>
-  )
-}
-
-function Search(props){
-  // const {value, onChange} = props
-  return(
-    <form>
-      <input
-        type="text"
-        value={props.value}
-        onChange={props.onChange}
-      />
-    </form>
   )
 }
 
