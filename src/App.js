@@ -45,7 +45,9 @@ function App() {
       <Search
         value={searchTerm}
         onChange={onSearchChange}
-      />
+      >
+        Search
+      </Search>
 
       <Table
         list={techStack}
@@ -57,12 +59,10 @@ function App() {
   )
 }
 
-function Search(props){
-  const {value, onChange} = props
-
+function Search({ value, onChange, children}){
   return(
     <form>
-      <input
+      {children}<input
         type="text"
         value={value}
         onChange={onChange}
@@ -71,9 +71,7 @@ function Search(props){
   )
 }
 
-function Table(props) {
-  const {list, pattern, onDismiss, isSearched} = props
-
+function Table({ list, pattern, onDismiss, isSearched }) {
   return(
     <div>
       {list.filter(isSearched(pattern)).map(item =>
@@ -85,16 +83,29 @@ function Table(props) {
           <span>{item.num_comments}</span>
           <span>{item.points}</span>
           <span>
-            <button
+            <Button
               onClick={() => onDismiss(item.objectID)}
-              type="button"
             >
               Dismiss
-            </button>
+            </Button>
           </span>
         </div>
       )}
     </div>
+  )
+}
+
+function Button(props) {
+  const {onClick, className = '', children} = props
+
+  return(
+    <button
+      onClick={onClick}
+      className={className}
+      type='button'
+    >
+      {children}
+    </button>
   )
 }
 
